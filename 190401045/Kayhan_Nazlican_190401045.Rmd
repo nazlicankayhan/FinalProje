@@ -8,3 +8,16 @@ output:
 # Q1 : Problem tanımı
 
 Yatırım Strateji Danışmanlık, tarımsal yatırımlar konusunda danışmanlık hizmeti sunan bir şirkettir. Müşterilerine, tarım sektöründe yatırım yapmak için en uygun bölgeleri ve ürünleri belirlemede yardımcı olma amacındadır. Ancak, şirketin tarımsal pazar ve ürün verimliliği konularında yeterli uzmanlığa sahip olmaması, müşterilere doğru ve verimli yatırım tavsiyeleri sunma kapasitesini sınırlıyor. Bu durum, hem müşteri memnuniyetini hem de şirketin gelir potansiyelini olumsuz yönde etkiliyor. Şirketin karşılaştığı ana sorun, çeşitli tarım ürünlerinin ve bölgelerin üretim ve pazar dinamiklerini etkin bir şekilde analiz ederek, müşterilere güvenilir ve karlı yatırım fırsatları sunabilecek bilgi birikimine ulaşmaktır.
+
+# Q2 : Proje Amacı
+
+[Global Food Prices](https://www.kaggle.com/datasets/jboysen/global-food-prices)
+
+[World Food Production](https://www.kaggle.com/datasets/rafsunahmad/world-food-production)
+
+Bu projenin amacı, tarımsal ürünlerin üretim verilerini analiz ederek yatırımcılara en uygun yatırım fırsatlarını sunmak ve böylece Yatırım Strateji Danışmanlık şirketinin müşteri memnuniyetini ve gelirlerini artırmaktır. Analiz aşamaları şunlardır:
+
+Ürün ve Bölge Trend Analizi: Çeşitli tarım ürünlerinin geçmiş üretim verilerini inceleyerek, hangi ürünlerin üretiminin arttığını veya azaldığını belirlemek.
+Pazar Talebi Tahmini: Geçmiş verilere dayanarak gelecekte hangi ürünlerin talep göreceğini tahmin etmek.
+Bölgesel Verimlilik Analizi: Farklı bölgelerdeki üretim verimliliğini analiz ederek, hangi bölgelerin hangi ürünler için daha uygun olduğunu belirlemek.
+
