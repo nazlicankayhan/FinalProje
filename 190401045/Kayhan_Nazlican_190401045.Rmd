@@ -91,4 +91,53 @@ table(production_data$Year)    # Yıllar
     
 **Önemli Sütunlar:** Ülke (Entity), yıl (Year) ve çeşitli tarım ürünlerinin üretim miktarları (örneğin, Maize Production, Rice Production) analiz için kritik öneme sahiptir.
 
+# Q4 : Veri seti ön işlemesi
+
+Veri setlerinin analize hazır hale getirilmesi için gerçekleştirilen önemli ön işleme adımları aşağıda özetlenmiştir:
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+# Gerekli kütüphanelerin yüklenmesi
+library(dplyr)
+
+# 'wfp_market_food_prices.csv' için Faktör Dönüşümü
+prices_data$adm0_name <- as.factor(prices_data$adm0_name)
+prices_data$mkt_name <- as.factor(prices_data$mkt_name)
+prices_data$cm_name <- as.factor(prices_data$cm_name)
+
+# Sayısal Değer Düzeltmesi
+prices_data$mp_price <- as.numeric(gsub(",", ".", prices_data$mp_price))
+
+# Eksik Veri Düzenlemesi
+prices_data[prices_data == -999] <- NA
+prices_data[prices_data == "yok"] <- NA
+production_data[production_data == -999] <- NA
+production_data[production_data == "yok"] <- NA
+
+# NA Değerlerinin Temizlenmesi
+prices_data <- na.omit(prices_data)
+production_data <- na.omit(production_data)
+
+# Veri Dönüşümü (Para Birimi Dönüşümü)
+# Bu kısım, döviz kurlarına bağlıdır ve örnek bir dönüşüm işlemi içerir.
+ exchange_rates <- c(USD_TRY = 30, EUR_TRY = 30) # Örnek döviz kurları
+ prices_data$mp_price_TRY <- prices_data$mp_price * exchange_rates[paste(prices_data$cur_name, "TRY", sep = "_")]
+
+# Ön işlemesi tamamlanmış veri setlerinden örnek satırların gösterilmesi
+head(prices_data)
+head(production_data)
+
+```
+**Faktör Dönüşümü:** 'wfp_market_food_prices.csv' veri setindeki kategori bilgisi içeren sütunlar (örneğin, 'adm0_name', 'mkt_name', 'cm_name') faktör tipine dönüştürülmüştür. Bu dönüşüm, R'da bu verilerden daha etkin bir şekilde faydalanabilmemizi sağlamıştır.
+
+**Sayısal Değer Düzeltmesi:** Bazı sayısal değerlerin ondalık ayracı virgül olarak belirtilmişti. Bu veriler, analizde doğru şekilde işlenebilmesi için nokta kullanılarak düzeltilmiştir.
+
+**Eksik Veri Düzenlemesi:** Her iki veri setinde de eksik veriler farklı şekillerde belirtilmişti (örneğin, -999, "yok"). Bu eksik değerler, R'ın anlayabileceği NA formatına dönüştürülmüştür. Örneğin, 'wfp_market_food_prices.csv' veri setinde toplam 66 eksik değer bulunmaktaydı ve bu değerler temizleme işlemi sonrasında NA ile değiştirilmiştir.
+
+**NA Değerlerinin Temizlenmesi:** Analizde kullanılacak olan sütunlardaki NA değerleri temizlenmiştir. Bu işlem, veri setinin bütünlüğünü korurken aynı zamanda analizin doğruluğunu artırmıştır.
+
+**Veri Dönüşümü:** Projede kullanılacak olan bazı verilerin, analizin gereksinimlerine uygun hale getirilmesi için dönüşüm işlemleri yapılmıştır. Örneğin, 'wfp_market_food_prices.csv' veri setindeki fiyatlar farklı para birimlerinde olduğundan, bunlar ortak bir para birimi ( TRY) cinsinden ifade edilmiştir.
+
+Bu ön işleme adımları, ham verilerin analiz için uygun ve anlamlı bir hale getirilmesini sağlamıştır. Bu ön işleme adımları sayesinde, veri setleri sonraki analiz aşamalarına hazır hale getirilmiştir.
+
 
