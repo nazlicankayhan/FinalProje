@@ -140,4 +140,56 @@ head(production_data)
 
 Bu ön işleme adımları, ham verilerin analiz için uygun ve anlamlı bir hale getirilmesini sağlamıştır. Bu ön işleme adımları sayesinde, veri setleri sonraki analiz aşamalarına hazır hale getirilmiştir.
 
+# Q5 : Veri mühendisliği 
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+# Veri setlerini 'Ülke' ve 'Yıl' sütunlarına göre birleştirme
+combined_data <- merge(prices_data, production_data, by.x = c("adm0_name", "mp_year"), by.y = c("Entity", "Year"))
+```
+
+Projemizde "wfp_market_food_prices.csv" ve "world food production.csv" olmak üzere iki farklı veri seti kullanılmıştır. Bu iki veri setini birleştirmek suretiyle, daha kapsamlı bir analiz yapabilme imkanı oluşturduk. Birleştirme işlemi, her iki veri setinde de ortak olan 'Ülke' ve 'Yıl' sütunları kullanılarak yapılmıştır. Bu işlem, farklı kaynaklardan elde edilen verileri bir araya getirerek, ülkelerin tarım ürünleri üretimi ve pazar fiyatları arasındaki ilişkileri daha iyi anlamamıza olanak tanımaktadır.
+Birleştirilmiş veri setinden örnek olarak aşağıda birkaç satır gösterilmektedir:
+
+Bu birleşik veri seti üzerinde basit analizler gerçekleştirilmiştir. Örnek olarak:
+
+**Grafik Çizimi:** 'Maize Production (tonnes)' ve 'Wheat Production (tonnes)' sütunları için yıllara göre üretim miktarlarını gösteren bir zaman serisi grafiği çizilmiştir. Bu grafik, belirli tarım ürünlerinin üretim eğilimlerini görselleştirmemizi sağlamaktadır.
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+# Veri setlerini 'Ülke' ve 'Yıl' sütunlarına göre birleştirme
+combined_data <- merge(prices_data, production_data, by.x = c("adm0_name", "mp_year"), by.y = c("Entity", "Year"))
+#head(combined_data)
+# Grafik kütüphanesini yükleme
+library(ggplot2)
+
+# 'Maize Production (tonnes)' ve 'Wheat Production (tonnes)' için zaman serisi grafiği
+ggplot(combined_data, aes(x = mp_year)) +
+  geom_line(aes(y = `Maize Production (tonnes)`, colour = "Maize")) +
+  geom_line(aes(y = `Wheat Production (tonnes)`, colour = "Wheat")) +
+  labs(title = "Yıllara Göre Mısır ve Buğday Üretimi", x = "Yıl", y = "Üretim (ton)") +
+  theme_minimal()
+```
+
+**Ortalama ve Medyan Hesaplamaları:** Birleşik veri setindeki çeşitli tarım ürünlerinin yıllık ortalama ve medyan üretim miktarları hesaplanmıştır. Bu istatistikler, ürünlerin zaman içindeki üretim değişimlerini analiz etmek için kullanılmıştır.
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+     # Çeşitli tarım ürünlerinin yıllık ortalama ve medyan üretim miktarları
+mean_maize_production <- mean(combined_data$`Maize Production (tonnes)`, na.rm = TRUE)
+median_maize_production <- median(combined_data$`Maize Production (tonnes)`, na.rm = TRUE)
+mean_rice_production <- mean(combined_data$`Rice Production (tonnes)`, na.rm = TRUE)
+median_rice_production <- median(combined_data$`Rice Production (tonnes)`, na.rm = TRUE)
+
+```
+
+**Kategorilere Ayırma:** Veriler, üretim miktarına göre çeşitli kategorilere ayrılarak, her kategorideki ülkelerin üretim performansları karşılaştırılmıştır.
+Bu adımlar, veri setlerini daha derinlemesine analiz etmek ve yatırım stratejileri geliştirmek için önemli bir temel oluşturmaktadır.
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+# Üretim miktarına göre kategorilere ayırma ve ülkelerin üretim performanslarını karşılaştırma
+# Örnek olarak 'Maize Production (tonnes)' için kategorilere ayırma
+combined_data$maize_production_category <- cut(combined_data$`Maize Production (tonnes)`, breaks = quantile(combined_data$`Maize Production (tonnes)`, na.rm = TRUE), include.lowest = TRUE, labels = FALSE)
+
+```
+
 
