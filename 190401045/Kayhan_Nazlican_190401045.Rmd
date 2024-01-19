@@ -21,3 +21,74 @@ Bu projenin amacı, tarımsal ürünlerin üretim verilerini analiz ederek yatı
 Pazar Talebi Tahmini: Geçmiş verilere dayanarak gelecekte hangi ürünlerin talep göreceğini tahmin etmek.
 Bölgesel Verimlilik Analizi: Farklı bölgelerdeki üretim verimliliğini analiz ederek, hangi bölgelerin hangi ürünler için daha uygun olduğunu belirlemek.
 
+# Q3 : Veri seti keşifsel analizi
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+filename1 <- "wfp_market_food_prices.csv"
+filename2 <- "world food production.csv"
+
+
+library(readr)
+prices_data <- read_csv(filename1)
+production_data <- read_csv(filename2)
+```
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+hist(prices_data$mp_year, breaks = 20)
+head(prices_data)
+dim(prices_data)
+str(prices_data)
+colSums(is.na(prices_data))
+
+#unique(prices_data$adm0_name) # Ülkeler
+#unique(prices_data$mkt_name)  # Pazarlar
+#unique(prices_data$cm_name)   # Ürünler
+summary(prices_data$mp_price) # Fiyatlar
+table(prices_data$mp_month)   # Aylar
+table(prices_data$mp_year)    # Yıllar
+
+
+```
+
+
+## "wfp_market_food_prices.csv" Veri Seti Analizi
+
+**Genel Bakış:** Bu veri seti, 743,914 satır ve 18 sütundan oluşmaktadır. Ana sütunlar arasında ülke (adm0_name), pazar (mkt_name), ürün (cm_name), para birimi (cur_name), fiyat türü (pt_name), birim (um_name), ay (mp_month) ve yıl (mp_year) bulunmaktadır.
+
+**Veri Türleri:** Veri seti, sayısal (int64, float64) ve metin (object) türlerinde veriler içermektedir.
+
+**Eksik Veriler:** adm1_name sütununda bazı eksik veriler mevcuttur.
+
+**Önemli Sütunlar:** Analiz için özellikle ülke, pazar, ürün, fiyat, ay ve yıl sütunları önem taşımaktadır.
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+head(production_data)
+
+dim(production_data)
+
+str(production_data)
+
+colSums(is.na(production_data))
+
+#unique(production_data$Entity) # Ülkeler
+table(production_data$Year)    # Yıllar
+#summary(production_data$`Maize Production`) # Mısır Üretimi
+#summary(production_data$`Rice Production`)  # Pirinç Üretimi
+
+```
+
+
+## "world food production.csv" Veri Seti Analizi
+
+**Genel Bakış:** Toplam 11,912 satır ve 24 sütundan oluşan bu veri seti, çeşitli ülkelerdeki yıllık tarım ürünleri üretim miktarlarını içermektedir.
+    
+**Veri Türleri:** Bu veri seti de sayısal (int64, float64) ve metin (object) türlerinde veriler içermektedir.
+    
+**Eksik Veriler:** Veri setinde eksik veri bulunmamaktadır.
+    
+**Önemli Sütunlar:** Ülke (Entity), yıl (Year) ve çeşitli tarım ürünlerinin üretim miktarları (örneğin, Maize Production, Rice Production) analiz için kritik öneme sahiptir.
+
+
