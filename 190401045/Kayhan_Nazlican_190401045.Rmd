@@ -1,0 +1,10 @@
+---
+title: "Proje Rapor : Nazlican Kayhan 190401045"
+output:
+  html_document:
+    df_print: paged
+---
+
+# Q1 : Problem tanımı
+
+Yatırım Strateji Danışmanlık, tarımsal yatırımlar konusunda danışmanlık hizmeti sunan bir şirkettir. Müşterilerine, tarım sektöründe yatırım yapmak için en uygun bölgeleri ve ürünleri belirlemede yardımcı olma amacındadır. Ancak, şirketin tarımsal pazar ve ürün verimliliği konularında yeterli uzmanlığa sahip olmaması, müşterilere doğru ve verimli yatırım tavsiyeleri sunma kapasitesini sınırlıyor. Bu durum, hem müşteri memnuniyetini hem de şirketin gelir potansiyelini olumsuz yönde etkiliyor. Şirketin karşılaştığı ana sorun, çeşitli tarım ürünlerinin ve bölgelerin üretim ve pazar dinamiklerini etkin bir şekilde analiz ederek, müşterilere güvenilir ve karlı yatırım fırsatları sunabilecek bilgi birikimine ulaşmaktır.
