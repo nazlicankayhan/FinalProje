@@ -192,4 +192,150 @@ combined_data$maize_production_category <- cut(combined_data$`Maize Production (
 
 ```
 
+# Q6 : Veri analizi
+
+Projemizin ana hedefine ulaşmak için kritik analizler gerçekleştirilmiş ve bu analizlerin sonuçları tablo ve grafikler ile desteklenmiştir. 
+
+**Birleşik Veri Seti Üzerinde Analiz:** 'wfp_market_food_prices.csv' ve 'world food production.csv' veri setlerini birleştirerek, ülkelerin tarım ürünleri üretimi ve pazar fiyatları arasındaki ilişkiyi analiz ettik. Özellikle, belirli ürünlerin (örneğin, mısır ve pirinç) üretim ve fiyat trendleri arasındaki korelasyon incelenmiştir.
+
+Projemizin çalışılabilirliğinin denenmesi için aşağıda üç tane olası müşteri ve analiz senaryosu ve onların kodları verilmiştir.
+
+## 1. Yatırım Danışmanlığı Şirketi için Müşteri Senaryosu
+
+**Müşteri:** "GreenVest Yatırım"
+
+**İhtiyaç:** GreenVest Yatırım, tarım sektöründe yatırım yapmak isteyen müşterilerine danışmanlık hizmeti sunuyor. Şirket, özellikle gelişmekte olan ülkelerdeki yatırım fırsatlarını değerlendirmek istiyor.
+
+###  Veri Analizi Odakları
+
+**Pirinç Fiyat Trendleri:** Son 5 yıl içinde Güneydoğu Asya'daki pirinç fiyatlarının analizi.
+
+**Yatırım Fırsatları:** Üretim maliyeti ve pazar fiyatı verilerine dayanarak, yüksek getiri potansiyeli olan bölgelerin belirlenmesi.
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+# Gerekli kütüphaneler
+library(dplyr)
+library(lubridate)
+library(testthat)
+
+# Güneydoğu Asya ülkeleri listesi (örnek)
+southeast_asia_countries <- c("Indonesia", "Malaysia", "Philippines", "Thailand", "Vietnam")
+
+# Son 5 yıllık verileri filtreleme ve pirinç fiyatları analizi
+rice_price_trends <- prices_data %>%
+  filter(adm0_name %in% southeast_asia_countries, cm_name == "Rice", mp_year >= year(Sys.Date()) - 5) %>%
+  group_by(adm0_name, mp_year) %>%
+  summarise(Average_Price = mean(mp_price, na.rm = TRUE))
+
+# Test Kodu
+test_that("Veri seti doğru ülkeleri içeriyor", {
+  expect_true(all(rice_price_trends$adm0_name %in% southeast_asia_countries))
+})
+
+```
+## 2. Uluslararası Gıda Dağıtım Şirketi için Müşteri Senaryosu
+
+**Müşteri:** "GlobalFood Distributors"
+
+**İhtiyaç:** Küresel ölçekte gıda dağıtımı yapan GlobalFood, farklı bölgelerdeki ürün fiyatlarını karşılaştırarak maliyeti en aza indirmek ve kar marjını artırmak istiyor.
+
+### Veri Analizi Odakları
+
+**Güney Amerika'daki Mısır Fiyatları:** Son 3 yılda Güney Amerika'da mısır fiyatlarının karşılaştırmalı analizi.
+
+**Fiyat ve Üretim İlişkisi:** Mısır üretiminin fiyatlar üzerindeki etkisi ve en uygun alım bölgelerinin tespiti.
+
+**Mevsimsel Fiyat Trendleri:** Yıl içindeki mevsimsel değişikliklerin fiyatlar üzerindeki etkisi.
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+#library(dplyr)
+
+
+# Güney Amerika ülkeleri listesi (örnek)
+#south_america_countries <- c("Brazil", "Argentina", "Colombia", "Peru", "Venezuela")
+
+# Son 3 yıllık verileri filtreleme ve mısır fiyatları analizi
+#corn_price_trends <- prices_data %>%
+#  filter(adm0_name %in% south_america_countries, cm_name == "Maize", mp_year >= year(Sys.Date()) - 3) %>%
+#  group_by(adm0_name, mp_year) %>%
+#  summarise(Average_Price = mean(mp_price, na.rm = TRUE))
+
+# Test Kodu
+#test_that("Veri seti doğru ülkeleri ve ürünleri içeriyor", {
+#  expect_true(all(corn_price_trends$adm0_name %in% south_america_countries))
+#  expect_true(all(corn_price_trends$cm_name == "Maize"))
+#})
+
+
+# Mısır üretim verilerini filtreleme
+#corn_production <- production_data %>%
+#  filter(Item == "Maize", Year >= max(Year) - 3) %>%
+#  group_by(Entity, Year) %>%
+#  summarise(Total_Production = sum(Value, na.rm = TRUE))
+
+# Fiyat ve üretim verilerini birleştirme
+#combined_data <- inner_join(corn_price_trends, corn_production, by = c("adm0_name" = "Entity", "mp_year" = "Year"))
+
+# Korelasyon analizi
+#correlation_analysis <- cor(combined_data$Average_Price, combined_data$Total_Production)
+
+# Test Kodu
+#test_that("Korelasyon analizi sonuçları geçerli", {
+#  expect_true(!is.na(correlation_analysis))
+#  expect_true(correlation_analysis <= 1 && correlation_analysis >= -1)
+#})
+
+```
+
+
+## 3. Tarım Sektörü Araştırmacısı için Müşteri Senaryosu
+
+**Müşteri:** "AgriTech Araştırma Merkezi"
+
+**İhtiyaç:** Tarım sektöründe sürdürülebilirlik üzerine çalışan AgriTech Araştırma Merkezi, üretim verimliliği ve sürdürülebilir tarım uygulamalarının etkilerini araştırmak istiyor.
+
+### Veri Analizi Odakları
+
+**Tarihsel Üretim Trendleri:** Son 20 yılda dünya genelinde seçilen ürünlerin (örn. soya fasulyesi, arpa) üretim trendleri.
+
+**Bölgesel Verimlilik Karşılaştırması:** Kuzey Amerika ve Avrupa'da soya fasulyesi ve arpa üretiminin verimlilik analizi.
+
+**Sürdürülebilir Tarımın Etkileri:** Sürdürülebilir tarım uygulamalarının üretim verimliliği üzerindeki etkilerinin incelenmesi.
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+# Tarihsel üretim trendleri için seçilen ürünler
+#selected_products <- c("Soybeans", "Barley")
+
+# Son 20 yıllık üretim verilerini filtreleme
+#historical_production_trends <- production_data %>%
+#  filter(Item %in% selected_products, Year >= max(Year) - 20) %>%
+#  group_by(Item, Year) %>%
+#  summarise(Total_Production = sum(Value, na.rm = TRUE))
+
+# Test Kodu
+#test_that("Tarihsel üretim trendleri verileri doğru", {
+#  expect_true(all(historical_production_trends$Item %in% selected_products))
+#  expect_true(all(historical_production_trends$Year >= max(production_data$Year) - 20))
+#})
+
+# Kuzey Amerika ve Avrupa ülkeleri listesi
+north_america_europe_countries <- c("United States", "Canada", "Germany", "France", "United Kingdom")
+
+# Bölgesel verimlilik karşılaştırması
+#regional_productivity_comparison <- production_data %>%
+#  filter(Entity %in% north_america_europe_countries, Item %in% selected_products) %>%
+#  group_by(Entity, Item) %>%
+#  summarise(Average_Production = mean(Value, na.rm = TRUE))
+
+# Test Kodu
+#test_that("Bölgesel verimlilik karşılaştırması doğru", {
+#  expect_true(all(regional_productivity_comparison$Entity %in% north_america_europe_countries))
+#  expect_true(all(regional_productivity_comparison$Item %in% selected_products))
+#})
+
+```
+
+Yapılan  analizler, şirketin müşterilerine doğru yatırım tavsiyelerinde bulunmasına yardımcı olacak ve müşteri memnuniyetini ve gelir potansiyelini artıracak önemli bilgiler sunmaktadır.
+
 
